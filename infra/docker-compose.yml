@@ -1,14 +1,30 @@
 version: "3.9"
 
 services:
+  web:
+    build:
+      context: ../apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    environment:
+      - NODE_ENV=production
+
   api:
     build:
       context: ../services/api
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://app:app@postgres:5432/app
+      - QDRANT_URL=http://qdrant:6333
     depends_on:
       - postgres
       - qdrant
+    restart: unless-stopped
 
   indexer:
     build:
