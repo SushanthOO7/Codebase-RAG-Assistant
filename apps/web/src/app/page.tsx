@@ -15,6 +15,7 @@ export default function Home() {
   useEffect(() => {
     const fetchHealth = async () => {
       try {
+        // Use localhost when accessing from the host machine
         const response = await fetch("http://localhost:8000/health");
         if (!response.ok) {
           throw new Error(`API returned ${response.status}`);
